@@ -1,6 +1,5 @@
 import json
 import subprocess
-import math
 
 # get process output string 
 def get_process(process): 
