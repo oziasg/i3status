@@ -5,12 +5,18 @@ import subprocess
 def get_process(process): 
     return str(subprocess.check_output(process).decode("ascii")).strip() 
 
-# get brightness percentage
+# get brightness percentage 
 def get_brightness(): 
-    brightness = float(get_process("xbacklight")) 
-    # round to nearest 10th 
-    brightness = round(brightness / 10) * 10 
-    return "BRIGHTNESS: {0}%".format(str(brightness))
+    # max brightness on my system is 852    
+    max_brightness = 852
+    file_name = "/sys/class/backlight/intel_backlight/brightness" 
+
+    with open(file_name, 'r') as file:
+        brightness = file.read().replace('\n', '') 
+
+    percentage = round(int(brightness) / max_brightness * 10) * 10 
+    return "BRIGHTNESS {0}%".format(percentage) 
+
 
 # get the next line of output from the process and format it 
 def next_line(i3status): 
